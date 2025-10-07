@@ -1,3 +1,16 @@
+---
+arguments:
+  product_1: string = "ワイヤレスヘッドフォン"
+  product_2: string = "スマートウォッチ"
+  product_3: string = "コーヒーメーカー"
+previous_steps:
+  docs/e2e-testing/features/商品検索とフィルタリング.feature@商品検索基本
+output:
+  cart_items: array
+  cart_count: number
+  cart_total: number
+---
+
 機能: ショッピングカート管理
   商品をカートに追加し、ショッピングカート機能を管理
 

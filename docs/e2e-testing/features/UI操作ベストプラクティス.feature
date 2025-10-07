@@ -1,3 +1,13 @@
+---
+arguments:
+  target_value: string = "対象値"
+  category_value: string = "家電"
+  status_value: string = "アクティブ"
+output:
+  operation_results: array
+  best_practices_applied: boolean
+---
+
 機能: UI操作ベストプラクティス
   信頼性の高いUI自動化のためのベストプラクティスと実証済みパターン
 

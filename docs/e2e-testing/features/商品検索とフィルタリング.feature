@@ -1,3 +1,17 @@
+---
+arguments:
+  search_term: string = "ヘッドフォン"
+  category: string = "家電"
+  combined_search: string = "スマート"
+previous_steps:
+  docs/e2e-testing/features/ユーザー認証.feature@ユーザーログインデモ
+output:
+  search_results: array
+  filtered_products: array
+next_steps:
+  docs/e2e-testing/features/ショッピングカート管理.feature@カート単一商品追加
+---
+
 機能: 商品検索とフィルタリング
   商品カタログでの商品検索とフィルター適用
 

@@ -1,3 +1,18 @@
+---
+arguments:
+  target_user: string = "田中太郎"
+  new_role: string = "マネージャー"
+  target_user_status: string = "佐藤花子"
+  new_status: string = "アクティブ"
+  detail_user: string = "山田次郎"
+previous_steps:
+  docs/e2e-testing/features/ユーザー認証.feature@管理者ユーザーログイン
+output:
+  user_role_changed: boolean
+  user_status_changed: boolean
+  user_details: object
+---
+
 機能: 管理者ユーザー管理
   管理者パネルのユーザー役割とステータス管理機能
 

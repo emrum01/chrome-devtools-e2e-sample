@@ -1,3 +1,16 @@
+---
+arguments:
+  test_email: string = "test@example.com"
+  test_password: string = "password123"
+  admin_email: string = "admin@example.com"
+  admin_password: string = "admin123"
+output:
+  user_session: boolean
+  authenticated_user: string
+next_steps:
+  docs/e2e-testing/features/商品検索とフィルタリング.feature@商品検索基本
+---
+
 機能: ユーザー認証とログイン
   eコマースアプリケーションのログイン処理とユーザーセッション管理
 
