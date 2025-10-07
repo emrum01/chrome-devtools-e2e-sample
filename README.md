@@ -42,10 +42,10 @@ git clone https://github.com/emrum01/chrome-devtools-e2e-sample.git
 cd chrome-devtools-e2e-sample
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start the development server
-npm run dev
+pnpm dev
 ```
 
 ### 2. MCP Setup
