@@ -1,56 +1,63 @@
-# Chrome DevTools E2E Testing Sample
+# Chrome DevTools E2E テストサンプル
 
-A sample repository demonstrating AI-powered E2E testing using Chrome DevTools MCP (Model Context Protocol) with Gherkin scenarios.
+Chrome DevTools MCP (Model Context Protocol) とGherkinシナリオを使用したAI駆動E2Eテストのデモリポジトリです。
 
-## 🎯 Overview
+> **📖 記事用サンプルリポジトリ**
+> このリポジトリは、AI駆動E2Eテストの実装方法を解説する技術記事のために作成されたサンプルプロジェクトです。実際のプロダクション環境での使用例として参照できます。
 
-This project showcases how to create a comprehensive E2E testing framework that combines:
-- **Chrome DevTools MCP**: Browser automation via Model Context Protocol
-- **Gherkin Scenarios**: Human-readable test specifications
-- **AI Test Execution**: Automated test interpretation and execution
-- **Next.js Sample App**: Demo e-commerce application for testing
+## 🎯 概要
 
-## 🏗️ Project Structure
+このプロジェクトは、以下を組み合わせた包括的なE2Eテストフレームワークの構築方法を紹介します：
+- **Chrome DevTools MCP**: Model Context Protocolを通じたブラウザ自動化
+- **Gherkinシナリオ**: 人間が読めるテスト仕様書
+- **AI テスト実行**: テストの自動解釈と実行
+- **Next.js サンプルアプリ**: テスト用デモeコマースアプリケーション
+
+## 🏗️ プロジェクト構成
 
 ```
 chrome-devtools-e2e-sample/
-├── src/app/                    # Next.js application
-│   ├── auth/login/            # Authentication pages
-│   ├── products/              # Product catalog
-│   ├── admin/                 # Admin panel
-│   └── users/[id]/            # User management
-├── docs/e2e-testing/          # E2E testing framework
-│   ├── e2e-chrome-dev-tools.md # Main testing guide
-│   └── features/              # Gherkin test scenarios
-│       ├── user-authentication.feature
-│       ├── product-search.feature
-│       ├── admin-user-management.feature
-│       ├── shopping-cart.feature
-│       └── ui-best-practices.feature
-├── .claude/commands/          # Claude Code integration
-├── .mcp.json                  # MCP server configuration
+├── src/app/                    # Next.js アプリケーション
+│   ├── auth/login/            # 認証ページ
+│   ├── products/              # 商品カタログ
+│   ├── admin/                 # 管理者パネル
+│   └── users/[id]/            # ユーザー管理
+├── docs/e2e-testing/          # E2E テストフレームワーク
+│   ├── e2e-chrome-dev-tools-jp.md # メインテストガイド
+│   ├── features/              # Gherkin テストシナリオ
+│   │   ├── ユーザー認証.feature
+│   │   ├── 商品検索とフィルタリング.feature
+│   │   ├── 管理者ユーザー管理.feature
+│   │   ├── ショッピングカート管理.feature
+│   │   └── UI操作ベストプラクティス.feature
+│   └── scenarios/             # 実行可能シナリオ
+│       ├── 完全ショッピングフロー.feature
+│       ├── 管理者ワークフロー.feature
+│       └── UI操作信頼性テスト.feature
+├── .claude/commands/          # Claude Code 統合
+├── .mcp.json                  # MCP サーバー設定
 └── README.md
 ```
 
-## 🚀 Quick Start
+## 🚀 クイックスタート
 
-### 1. Installation
+### 1. インストール
 
 ```bash
-# Clone the repository
+# リポジトリをクローン
 git clone https://github.com/emrum01/chrome-devtools-e2e-sample.git
 cd chrome-devtools-e2e-sample
 
-# Install dependencies
+# 依存関係をインストール
 pnpm install
 
-# Start the development server
+# 開発サーバーを起動
 pnpm dev
 ```
 
-### 2. MCP Setup
+### 2. MCP セットアップ
 
-Make sure you have Claude Code (or compatible MCP client) installed and configured with Chrome DevTools MCP:
+Claude Code（または互換性のあるMCPクライアント）がインストールされ、Chrome DevTools MCPで設定されていることを確認してください：
 
 ```json
 {
@@ -63,84 +70,97 @@ Make sure you have Claude Code (or compatible MCP client) installed and configur
 }
 ```
 
-### 3. Run E2E Tests
+### 3. E2E テストの実行
 
-Using Claude Code:
+Claude Code を使用：
 ```
-/e2e-testing user authentication and product search
+/e2e-testing ユーザー認証と商品検索をテストしてください
 ```
 
-## 📋 Available Test Scenarios
+## 📋 利用可能なテストシナリオ
 
-| Test Scenario | Description | Feature File |
+| テストシナリオ | 説明 | フィーチャーファイル |
 |---------------|-------------|--------------|
-| **User Authentication** | Login processes and session management | `user-authentication.feature` |
-| **Product Search** | Search and filter functionality | `product-search.feature` |
-| **Admin User Management** | Role changes and user administration | `admin-user-management.feature` |
-| **Shopping Cart** | Add to cart and cart management | `shopping-cart.feature` |
-| **UI Best Practices** | Proven UI automation patterns | `ui-best-practices.feature` |
+| **ユーザー認証** | ログインプロセスとセッション管理 | `ユーザー認証.feature` |
+| **商品検索** | 検索とフィルター機能 | `商品検索とフィルタリング.feature` |
+| **管理者ユーザー管理** | 役割変更とユーザー管理 | `管理者ユーザー管理.feature` |
+| **ショッピングカート** | カート追加とカート管理 | `ショッピングカート管理.feature` |
+| **UI ベストプラクティス** | 実証済みUI自動化パターン | `UI操作ベストプラクティス.feature` |
 
-## 🎮 Sample Application Features
+### 実行可能シナリオ
 
-### User Interface
-- **Home Page**: Navigation to different app sections
-- **Login Page**: Email/password authentication with test accounts
-- **Product Catalog**: Searchable and filterable product listing
-- **Shopping Cart**: Add/remove products functionality
+| シナリオ | 説明 | 実行内容 |
+|---------|-------------|----------|
+| **完全ショッピングフロー** | eコマース全体のユーザージャーニー | 認証→検索→カート追加 |
+| **管理者ワークフロー** | 管理者機能の完全なテスト | 管理者認証→ユーザー管理→役割・ステータス変更 |
+| **UI操作信頼性テスト** | UI操作パターンの信頼性検証 | ドロップダウン→動的フォーム→ダイアログ処理 |
 
-### Admin Interface
-- **User Management**: View, edit, and manage user accounts
-- **Role Management**: Change user roles and permissions
-- **Order Management**: View customer orders and status
+## 🎮 サンプルアプリケーションの機能
 
-### Test Accounts
+### ユーザーインターフェース
+- **ホームページ**: 各アプリセクションへのナビゲーション
+- **ログインページ**: テストアカウント付きメール/パスワード認証
+- **商品カタログ**: 検索・フィルター機能付き商品一覧
+- **ショッピングカート**: 商品追加/削除機能
+
+### 管理者インターフェース
+- **ユーザー管理**: ユーザーアカウントの表示、編集、管理
+- **役割管理**: ユーザー役割と権限の変更
+- **注文管理**: 顧客の注文と状況の表示
+
+### テストアカウント
 ```
-Customer: test@example.com / password123
-Admin:    admin@example.com / admin123
-Manager:  manager@example.com / manager123
+顧客:    test@example.com / password123
+管理者:  admin@example.com / admin123
+マネージャー: manager@example.com / manager123
 ```
 
-## 🔧 E2E Testing Framework
+## 🔧 E2E テストフレームワーク
 
-### Core Components
+### コアコンポーネント
 
-1. **Main Test Guide** (`docs/e2e-testing/e2e-chrome-dev-tools.md`)
-   - Execution procedures and best practices
-   - Environment configuration
-   - Error handling strategies
+1. **メインテストガイド** (`docs/e2e-testing/e2e-chrome-dev-tools-jp.md`)
+   - 実行手順とベストプラクティス
+   - 環境設定
+   - エラーハンドリング戦略
 
-2. **Gherkin Features** (`docs/e2e-testing/features/`)
-   - Behavior-driven test specifications
-   - Reusable test scenarios
-   - UI operation patterns
+2. **Gherkin フィーチャー** (`docs/e2e-testing/features/`)
+   - 振る舞い駆動テスト仕様
+   - 再利用可能なテストシナリオ
+   - UI操作パターン
 
-3. **MCP Integration** (`.mcp.json`)
-   - Chrome DevTools server configuration
-   - Isolated browser instances for testing
+3. **実行可能シナリオ** (`docs/e2e-testing/scenarios/`)
+   - 複数フィーチャーを統合した完全なワークフロー
+   - フロントマター設定によるテストチェーン
+   - 引数とアウトプットの管理
 
-### Testing Workflow
+4. **MCP 統合** (`.mcp.json`)
+   - Chrome DevTools サーバー設定
+   - テスト用分離ブラウザインスタンス
+
+### テストワークフロー
 
 ```mermaid
 graph TD
-    A[Start E2E Test] --> B[Load Test Scenario]
-    B --> C[Launch Browser]
-    C --> D[Navigate to App]
-    D --> E[Execute Gherkin Steps]
-    E --> F[Apply UI Best Practices]
-    F --> G[Verify Results]
-    G --> H[Generate Report]
+    A[E2E テスト開始] --> B[テストシナリオ読み込み]
+    B --> C[ブラウザ起動]
+    C --> D[アプリへ移動]
+    D --> E[Gherkin ステップ実行]
+    E --> F[UI ベストプラクティス適用]
+    F --> G[結果検証]
+    G --> H[レポート生成]
 ```
 
-## 🛠️ UI Best Practices
+## 🛠️ UI ベストプラクティス
 
-The framework includes proven patterns for:
-- **Dropdown Operations**: Reliable select element manipulation
-- **Dynamic Forms**: Multi-step form handling
-- **Page Transitions**: Proper wait strategies
-- **Error Handling**: Graceful failure management
-- **State Verification**: Success/error confirmation
+フレームワークには以下の実証済みパターンが含まれています：
+- **ドロップダウン操作**: 信頼性の高いselect要素操作
+- **動的フォーム**: 複数ステップフォームハンドリング
+- **ページ遷移**: 適切な待機戦略
+- **エラーハンドリング**: 優雅な失敗管理
+- **状態検証**: 成功/エラー確認
 
-Example dropdown operation pattern:
+ドロップダウン操作パターンの例：
 ```javascript
 const selects = document.querySelectorAll('select');
 const comboboxes = document.querySelectorAll('[role="combobox"]');
@@ -148,8 +168,10 @@ const allSelects = [...selects, ...comboboxes];
 
 allSelects.forEach((element) => {
   const options = element.querySelectorAll('option');
+  const parentText = element.parentElement?.textContent || '';
+
   options.forEach(option => {
-    if (option.textContent.includes('Target Value')) {
+    if (option.textContent.includes('対象値')) {
       element.value = option.value;
       element.selectedIndex = option.index;
       element.dispatchEvent(new Event('change', {bubbles: true}));
@@ -159,72 +181,89 @@ allSelects.forEach((element) => {
 });
 ```
 
-## 🎯 Usage Examples
+## 🎯 使用例
 
-### Basic Authentication Test
+### 基本認証テスト
 ```
-/e2e-testing user login verification
+/e2e-testing ユーザーログイン検証
 
-# AI will execute:
-# 1. docs/e2e-testing/features/user-authentication.feature
-# 2. Navigate to login page
-# 3. Enter test credentials
-# 4. Verify successful authentication
-```
-
-### Admin Workflow Test
-```
-/e2e-testing admin user role management
-
-# AI will execute:
-# 1. Admin login authentication
-# 2. docs/e2e-testing/features/admin-user-management.feature
-# 3. Navigate to user management
-# 4. Change user roles and verify
+# AIが実行する内容:
+# 1. docs/e2e-testing/features/ユーザー認証.feature
+# 2. ログインページへ移動
+# 3. テスト認証情報入力
+# 4. 認証成功の検証
 ```
 
-### Complete E-commerce Flow
+### 管理者ワークフローテスト
 ```
-/e2e-testing full shopping experience
+/e2e-testing 管理者ユーザー役割管理
 
-# AI will execute multiple feature files:
-# 1. user-authentication.feature (login)
-# 2. product-search.feature (find products)
-# 3. shopping-cart.feature (add to cart)
-# 4. Verify end-to-end functionality
+# AIが実行する内容:
+# 1. 管理者ログイン認証
+# 2. docs/e2e-testing/features/管理者ユーザー管理.feature
+# 3. ユーザー管理へ移動
+# 4. ユーザー役割変更と検証
 ```
 
-## 🌍 Environment Support
+### 完全eコマースフロー
+```
+/e2e-testing 完全ショッピング体験
 
-| Environment | URL | Description |
+# AIが複数のフィーチャーファイルを実行:
+# 1. ユーザー認証.feature (ログイン)
+# 2. 商品検索とフィルタリング.feature (商品検索)
+# 3. ショッピングカート管理.feature (カート追加)
+# 4. エンドツーエンド機能検証
+```
+
+## 🌍 環境サポート
+
+| 環境 | URL | 説明 |
 |-------------|-----|-------------|
-| Local | http://localhost:3000 | Development environment |
-| Dev | https://dev.example.com | Development deployment |
-| Staging | https://staging.example.com | Pre-production testing |
+| ローカル | http://localhost:3004 | 開発環境 |
+| 開発 | https://dev.example.com | 開発デプロイ |
+| ステージング | https://staging.example.com | 本番前テスト |
 
-## 📊 Key Benefits
+## 📊 主な利点
 
-1. **AI-Powered Testing**: Natural language test execution
-2. **Human-Readable Specs**: Gherkin scenarios for clear test documentation
-3. **Reusable Patterns**: UI best practices for reliable automation
-4. **Comprehensive Coverage**: End-to-end workflow testing
-5. **Easy Integration**: Works with Claude Code and MCP ecosystem
+1. **AI駆動テスト**: 自然言語でのテスト実行
+2. **人間が読める仕様**: 明確なテストドキュメントのためのGherkinシナリオ
+3. **再利用可能パターン**: 信頼性の高い自動化のためのUIベストプラクティス
+4. **包括的カバレッジ**: エンドツーエンドワークフローテスト
+5. **簡単な統合**: Claude CodeとMCPエコシステムとの連携
 
-## 🤝 Contributing
+## 🎨 フロントマター設定
 
-This is a sample repository for educational purposes. Feel free to fork and adapt for your own projects.
+各フィーチャーファイルには、テストの実行と連携を管理するYAMLフロントマターが含まれています：
 
-## 📄 License
+```yaml
+---
+arguments:
+  test_email: string = "test@example.com"
+  test_password: string = "password123"
+output:
+  user_session: boolean
+  authenticated_user: string
+next_steps:
+  docs/e2e-testing/features/商品検索とフィルタリング.feature@商品検索基本
+---
+```
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+## 🤝 コントリビューション
 
-## 🔗 Related Resources
+これは教育目的のサンプルリポジトリです。自由にフォークして、自分のプロジェクトに適応させてください。
+
+## 📄 ライセンス
+
+MIT License - 詳細は [LICENSE](LICENSE) ファイルをご覧ください。
+
+## 🔗 関連リソース
 
 - [Chrome DevTools MCP](https://github.com/rusiaaman/chrome-devtools-mcp)
-- [Claude Code Documentation](https://claude.ai/code)
+- [Claude Code ドキュメント](https://claude.ai/code)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Gherkin Reference](https://cucumber.io/docs/gherkin/)
+- [Gherkin リファレンス](https://cucumber.io/docs/gherkin/)
 
 ---
 
-**Made with ❤️ for the AI testing community**
+**AIテストコミュニティのために ❤️ を込めて作成**
