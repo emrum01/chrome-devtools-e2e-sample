@@ -1,63 +1,46 @@
 # Chrome DevTools E2E テストサンプル
 
-Chrome DevTools MCP (Model Context Protocol) とGherkinシナリオを使用したAI駆動E2Eテストのデモリポジトリです。
+Claude Code と Chrome DevTools MCP を組み合わせ、**「E2E テストは AI に頼むだけ」**という体験を紹介するサンプルリポジトリです。Zenn 記事「[動作確認は面倒なので Claude CodeとChrome DevTools MCPにやってもらいましょう](https://zenn.dev/emrum/articles/ai-driven-e2e-claude-code-chrome-devtools-mcp)」で解説している構成をそのまま再現しています。
 
-> **📖 記事用サンプルリポジトリ**
-> このリポジトリは、AI駆動E2Eテストの実装方法を解説する技術記事のために作成されたサンプルプロジェクトです。実際のプロダクション環境での使用例として参照できます。
+> 🧩 **目的**
+> - Claude Code から `/e2e-chrome-devtools-mcp` コマンドを 1 行呼び出すだけで、AI がブラウザを起動してシナリオを解釈・実行・検証するワークフローを確認できます。
+> - 日本語 Gherkin で記述したシナリオを、Chrome DevTools MCP が提供する実ブラウザ制御と組み合わせて動かします。
 
-## 🎯 概要
-
-このプロジェクトは、以下を組み合わせた包括的なE2Eテストフレームワークの構築方法を紹介します：
-- **Chrome DevTools MCP**: Model Context Protocolを通じたブラウザ自動化
-- **Gherkinシナリオ**: 人間が読めるテスト仕様書
-- **AI テスト実行**: テストの自動解釈と実行
-- **Next.js サンプルアプリ**: テスト用デモeコマースアプリケーション
-
-## 🏗️ プロジェクト構成
+## 📦 リポジトリ構成
 
 ```
 chrome-devtools-e2e-sample/
-├── src/app/                    # Next.js アプリケーション
-│   ├── auth/login/            # 認証ページ
-│   ├── products/              # 商品カタログ
-│   ├── admin/                 # 管理者パネル
-│   └── users/[id]/            # ユーザー管理
-├── docs/e2e-testing/          # E2E テストフレームワーク
-│   ├── e2e-chrome-dev-tools-jp.md # メインテストガイド
-│   ├── features/              # Gherkin テストシナリオ
-│   │   ├── ユーザー認証.feature
-│   │   ├── 商品検索とフィルタリング.feature
-│   │   ├── 管理者ユーザー管理.feature
-│   │   ├── ショッピングカート管理.feature
-│   │   └── UI操作ベストプラクティス.feature
-│   └── scenarios/             # 実行可能シナリオ
-│       ├── 完全ショッピングフロー.feature
-│       ├── 管理者ワークフロー.feature
-│       └── UI操作信頼性テスト.feature
-├── .claude/commands/          # Claude Code 統合
-├── .mcp.json                  # MCP サーバー設定
+├── src/app/                    # Next.js デモアプリ (認証 / 商品カタログ / カート / 管理画面)
+├── docs/e2e-testing/
+│   ├── RUNBOOK.md              # Claude Code が最初に読む実行台本
+│   ├── OVERVIEW.md             # ドキュメント群の意図と連携を解説
+│   ├── guidelines/ai-rules.md  # 環境・ポリシー・自然言語マッピング
+│   ├── features/               # 日本語 Gherkin の機能テスト
+│   │   ├── 認証.feature
+│   │   ├── カート追加.feature
+│   │   └── 購入.feature        # @ペイパル / @クレジットカード などのタグを保持
+│   ├── scenarios/完全購入フロー.feature
+│   └── snippets/fillCardForm.js
+├── .claude/commands/e2e-chrome-devtools-mcp.md
+├── .mcp.json                   # Chrome DevTools MCP の実行設定
 └── README.md
 ```
 
-## 🚀 クイックスタート
-
-### 1. インストール
+## ⚙️ セットアップ
 
 ```bash
-# リポジトリをクローン
+# リポジトリを取得
 git clone https://github.com/emrum01/chrome-devtools-e2e-sample.git
 cd chrome-devtools-e2e-sample
 
 # 依存関係をインストール
 pnpm install
 
-# 開発サーバーを起動
+# Next.js デモアプリを起動 (必要に応じて)
 pnpm dev
 ```
 
-### 2. MCP セットアップ
-
-Claude Code（または互換性のあるMCPクライアント）がインストールされ、Chrome DevTools MCPで設定されていることを確認してください：
+Chrome DevTools MCP サーバーを `.mcp.json` で登録します。Claude Code の `claude_desktop_config.json` に下記のような設定を追加しておけば、ローカルでブラウザを自動起動できます。
 
 ```json
 {
@@ -70,200 +53,45 @@ Claude Code（または互換性のあるMCPクライアント）がインスト
 }
 ```
 
-### 3. E2E テストの実行
+`.claude/commands/e2e-chrome-devtools-mcp.md` は 1 行だけのカスタムコマンドです。
 
-Claude Code を使用：
 ```
-/e2e-testing ユーザー認証と商品検索をテストしてください
+docs/e2e-testing/RUNBOOK.md を読み込んでその中身を実行する
 ```
 
-## 📋 利用可能なテストシナリオ
+これを呼び出すと Claude Code が RUNBOOK → ガイドライン → feature/scenario の順に読み込み、自然言語の指示をテストケースへ自動的にマッピングします。
 
-| テストシナリオ | 説明 | フィーチャーファイル |
-|---------------|-------------|--------------|
-| **ユーザー認証** | ログインプロセスとセッション管理 | `ユーザー認証.feature` |
-| **商品検索** | 検索とフィルター機能 | `商品検索とフィルタリング.feature` |
-| **管理者ユーザー管理** | 役割変更とユーザー管理 | `管理者ユーザー管理.feature` |
-| **ショッピングカート** | カート追加とカート管理 | `ショッピングカート管理.feature` |
-| **UI ベストプラクティス** | 実証済みUI自動化パターン | `UI操作ベストプラクティス.feature` |
+## 🧭 RUNBOOK 駆動の 5 ステップフロー
 
-### 実行可能シナリオ
+記事と同じく、E2E 実行は次の 5 つの段階で進みます。
 
-| シナリオ | 説明 | 実行内容 |
-|---------|-------------|----------|
-| **完全ショッピングフロー** | eコマース全体のユーザージャーニー | 認証→検索→カート追加 |
-| **管理者ワークフロー** | 管理者機能の完全なテスト | 管理者認証→ユーザー管理→役割・ステータス変更 |
-| **UI操作信頼性テスト** | UI操作パターンの信頼性検証 | ドロップダウン→動的フォーム→ダイアログ処理 |
+1. **自然言語で指示**: 例 `/e2e-chrome-devtools-mcp "ペイパルで購入して"`
+2. **RUNBOOK 読み込み**: 目的・前提・成功条件・フォールバック方針を把握
+3. **ai-rules 適用**: `guidelines/ai-rules.md` の `env` / `policy` / `mapping` を読み込む
+4. **feature 実行**: 日本語 Gherkin に従ってクリック・入力・待機・検証を繰り返す
+5. **結果確認**: スナップショット・コンソール・API レスポンスをチェックし、必要に応じて `snippets/` のフォールバックを 1 度だけ利用
 
-## 🎮 サンプルアプリケーションの機能
+## 🧪 収録シナリオ
 
-### ユーザーインターフェース
-- **ホームページ**: 各アプリセクションへのナビゲーション
-- **ログインページ**: テストアカウント付きメール/パスワード認証
-- **商品カタログ**: 検索・フィルター機能付き商品一覧
-- **ショッピングカート**: 商品追加/削除機能
+| 種別 | 説明 | 呼び出し例 |
+|------|------|------------|
+| 認証.feature @ログイン | メール/パスワードでのログインとセッション確認 | 「ログインして」 |
+| カート追加.feature @カート追加 | 商品検索とカート投入の操作 | 「商品をカートに入れて」 |
+| 購入.feature @ペイパル / @クレジットカード | 支払い手段を切り替えて購入完了を検証 | 「ペイパルで支払って」 |
+| scenarios/完全購入フロー.feature @完全購入フロー | 認証 → 検索 → カート → 支払いを一気に実行 | 「一気通貫で購入フロー」 |
 
-### 管理者インターフェース
-- **ユーザー管理**: ユーザーアカウントの表示、編集、管理
-- **役割管理**: ユーザー役割と権限の変更
-- **注文管理**: 顧客の注文と状況の表示
+## 👤 テストアカウント
 
-### テストアカウント
 ```
 顧客:    test@example.com / password123
 管理者:  admin@example.com / admin123
 マネージャー: manager@example.com / manager123
 ```
 
-## 🔧 E2E テストフレームワーク
+## 📚 参考リンク
 
-### コアコンポーネント
+- 記事本編: [動作確認は面倒なので Claude CodeとChrome DevTools MCPにやってもらいましょう](https://zenn.dev/emrum/articles/ai-driven-e2e-claude-code-chrome-devtools-mcp)
+- Chrome DevTools MCP 公式リポジトリ: <https://github.com/ChromeDevTools/chrome-devtools-mcp>
+- Gherkin リファレンス: <https://cucumber.io/docs/gherkin/reference/>
 
-1. **メインテストガイド** (`docs/e2e-testing/e2e-chrome-dev-tools-jp.md`)
-   - 実行手順とベストプラクティス
-   - 環境設定
-   - エラーハンドリング戦略
-
-2. **Gherkin フィーチャー** (`docs/e2e-testing/features/`)
-   - 振る舞い駆動テスト仕様
-   - 再利用可能なテストシナリオ
-   - UI操作パターン
-
-3. **実行可能シナリオ** (`docs/e2e-testing/scenarios/`)
-   - 複数フィーチャーを統合した完全なワークフロー
-   - フロントマター設定によるテストチェーン
-   - 引数とアウトプットの管理
-
-4. **MCP 統合** (`.mcp.json`)
-   - Chrome DevTools サーバー設定
-   - テスト用分離ブラウザインスタンス
-
-### テストワークフロー
-
-```mermaid
-graph TD
-    A[E2E テスト開始] --> B[テストシナリオ読み込み]
-    B --> C[ブラウザ起動]
-    C --> D[アプリへ移動]
-    D --> E[Gherkin ステップ実行]
-    E --> F[UI ベストプラクティス適用]
-    F --> G[結果検証]
-    G --> H[レポート生成]
-```
-
-## 🛠️ UI ベストプラクティス
-
-フレームワークには以下の実証済みパターンが含まれています：
-- **ドロップダウン操作**: 信頼性の高いselect要素操作
-- **動的フォーム**: 複数ステップフォームハンドリング
-- **ページ遷移**: 適切な待機戦略
-- **エラーハンドリング**: 優雅な失敗管理
-- **状態検証**: 成功/エラー確認
-
-ドロップダウン操作パターンの例：
-```javascript
-const selects = document.querySelectorAll('select');
-const comboboxes = document.querySelectorAll('[role="combobox"]');
-const allSelects = [...selects, ...comboboxes];
-
-allSelects.forEach((element) => {
-  const options = element.querySelectorAll('option');
-  const parentText = element.parentElement?.textContent || '';
-
-  options.forEach(option => {
-    if (option.textContent.includes('対象値')) {
-      element.value = option.value;
-      element.selectedIndex = option.index;
-      element.dispatchEvent(new Event('change', {bubbles: true}));
-      element.dispatchEvent(new Event('input', {bubbles: true}));
-    }
-  });
-});
-```
-
-## 🎯 使用例
-
-### 基本認証テスト
-```
-/e2e-testing ユーザーログイン検証
-
-# AIが実行する内容:
-# 1. docs/e2e-testing/features/ユーザー認証.feature
-# 2. ログインページへ移動
-# 3. テスト認証情報入力
-# 4. 認証成功の検証
-```
-
-### 管理者ワークフローテスト
-```
-/e2e-testing 管理者ユーザー役割管理
-
-# AIが実行する内容:
-# 1. 管理者ログイン認証
-# 2. docs/e2e-testing/features/管理者ユーザー管理.feature
-# 3. ユーザー管理へ移動
-# 4. ユーザー役割変更と検証
-```
-
-### 完全eコマースフロー
-```
-/e2e-testing 完全ショッピング体験
-
-# AIが複数のフィーチャーファイルを実行:
-# 1. ユーザー認証.feature (ログイン)
-# 2. 商品検索とフィルタリング.feature (商品検索)
-# 3. ショッピングカート管理.feature (カート追加)
-# 4. エンドツーエンド機能検証
-```
-
-## 🌍 環境サポート
-
-| 環境 | URL | 説明 |
-|-------------|-----|-------------|
-| ローカル | http://localhost:3004 | 開発環境 |
-| 開発 | https://dev.example.com | 開発デプロイ |
-| ステージング | https://staging.example.com | 本番前テスト |
-
-## 📊 主な利点
-
-1. **AI駆動テスト**: 自然言語でのテスト実行
-2. **人間が読める仕様**: 明確なテストドキュメントのためのGherkinシナリオ
-3. **再利用可能パターン**: 信頼性の高い自動化のためのUIベストプラクティス
-4. **包括的カバレッジ**: エンドツーエンドワークフローテスト
-5. **簡単な統合**: Claude CodeとMCPエコシステムとの連携
-
-## 🎨 フロントマター設定
-
-各フィーチャーファイルには、テストの実行と連携を管理するYAMLフロントマターが含まれています：
-
-```yaml
----
-arguments:
-  test_email: string = "test@example.com"
-  test_password: string = "password123"
-output:
-  user_session: boolean
-  authenticated_user: string
-next_steps:
-  docs/e2e-testing/features/商品検索とフィルタリング.feature@商品検索基本
----
-```
-
-## 🤝 コントリビューション
-
-これは教育目的のサンプルリポジトリです。自由にフォークして、自分のプロジェクトに適応させてください。
-
-## 📄 ライセンス
-
-MIT License - 詳細は [LICENSE](LICENSE) ファイルをご覧ください。
-
-## 🔗 関連リソース
-
-- [Chrome DevTools MCP](https://github.com/rusiaaman/chrome-devtools-mcp)
-- [Claude Code ドキュメント](https://claude.ai/code)
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Gherkin リファレンス](https://cucumber.io/docs/gherkin/)
-
----
-
-**AIテストコミュニティのために ❤️ を込めて作成**
+記事内で紹介されたフロー・フォールバック戦略・自然言語マッピングは `docs/e2e-testing/` 以下に全て収録しています。RUNBOOK を起点に辿っていただければ、Claude Code がどのようにシナリオを選定しブラウザを操作しているかをそのまま再現できます。
